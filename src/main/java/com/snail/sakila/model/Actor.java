@@ -1,8 +1,11 @@
 package com.snail.sakila.model;
 
+import com.snail.sakila.vo.FilmVo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+
 @Data
 public class Actor {
     private Short actorId;
@@ -12,6 +15,8 @@ public class Actor {
     private String lastName;
 
     private Date lastUpdate;
+
+    private List<FilmVo> films;
 
     public Short getActorId() {
         return actorId;
@@ -44,5 +49,4 @@ public class Actor {
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
-
 }

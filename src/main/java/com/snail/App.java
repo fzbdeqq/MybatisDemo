@@ -25,12 +25,29 @@ public class App
         SqlSession sqlSession=sqlSessionFactory.openSession();
         ActorMapper actorMapper= sqlSession.getMapper(ActorMapper.class);
 
-        short id=1;
-        Actor actor=actorMapper.selectByPrimaryKey(id);
+        short actorId=1;
+        Actor actor=actorMapper.selectByPrimaryKey(actorId);
         log.info(actor.toString());
 
-        id=2;
-        Actor actor2=actorMapper.selectByActorId(id);
-        log.info(actor2.toString());
+        actor.setFirstName("FzbName");
+        actorMapper.updateByPrimaryKey(actor);
+
+        actorId=1;
+        actor=actorMapper.selectByPrimaryKey(actorId);
+        log.info(actor.toString());
+//        二级缓存
+        log.info("二级缓存");
+        actor=actorMapper.selectByPrimaryKey(actorId);
+        log.info(actor.toString());
+
+        actorId=2;
+        actor=actorMapper.selectByActorId(actorId);
+        log.info(actor.toString());
+
+        //关联
+        //集合
+        actor=actorMapper.selectActorFilmByActorId(actorId);
+        log.info(actor.toString());
+
     }
 }

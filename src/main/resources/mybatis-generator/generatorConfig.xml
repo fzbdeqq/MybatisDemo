@@ -6,7 +6,7 @@
 <generatorConfiguration>
     <!--导入属性配置-->
     <!--    <properties resource="datasource.properties"/>-->
-    <context id="simple" targetRuntime="MyBatis3Simple">
+    <context id="simple" targetRuntime="MyBatis3">
         <commentGenerator>
             <property name="suppressDate" value="false"/>
             <property name="suppressAllComments" value="true"/>
@@ -36,8 +36,9 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-<!--        <table tableName="actor" domainObjectName="Actor" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>-->
-        <table tableName="address" domainObjectName="Address"></table>
+        <table tableName="actor" domainObjectName="Actor" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" ></table>
+        <table tableName="film_actor" domainObjectName="FilmActor" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="film" domainObjectName="Film" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 
     </context>
 </generatorConfiguration>
