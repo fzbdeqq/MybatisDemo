@@ -1,13 +1,20 @@
 package com.snail.sakila.model;
 
-import java.util.Date;
+import com.snail.sakila.vo.FilmAnnoVo;
+import lombok.Data;
 
+import java.util.Date;
+import java.util.List;
+
+@Data
 public class Category {
     private Byte categoryId;
 
     private String name;
 
     private Date lastUpdate;
+
+    private List<FilmAnnoVo> filmAnnoVos;
 
     public Byte getCategoryId() {
         return categoryId;

@@ -30,6 +30,7 @@
         <mapper resource="com/snail/sakila/mapper/ActorMapper.xml"/>
         <mapper resource="com/snail/sakila/mapper/FilmActorMapper.xml"/>
         <mapper resource="com/snail/sakila/mapper/FilmMapper.xml"/>
+        <mapper resource="com/snail/sakila/mapper/CategoryMapper.xml"/>
     </mappers>
 
 </configuration>

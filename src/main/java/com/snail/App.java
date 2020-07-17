@@ -1,8 +1,10 @@
 package com.snail;
 
 import com.snail.sakila.mapper.ActorMapper;
+import com.snail.sakila.mapper.CategoryMapper;
 import com.snail.sakila.mapper.FilmMapper;
 import com.snail.sakila.model.Actor;
+import com.snail.sakila.model.Category;
 import com.snail.sakila.model.Film;
 import com.snail.sakila.vo.FilmAnnoVo;
 import com.snail.sakila.vo.FilmVo;
@@ -81,5 +83,11 @@ public class App
         log.info(filmAnnoVo.toString());
         filmAnnoVo=filmMapper.selectFilmCategoryByFilm(filmId);
         log.info(filmAnnoVo.toString());
+
+        CategoryMapper categoryMapper=sqlSession.getMapper(CategoryMapper.class);
+        log.info("categoryMapper");
+        short categoryId=1;
+        Category category=categoryMapper.selectCategoryFilmByCategoryId(categoryId);
+        log.info(category.toString());
     }
 }
