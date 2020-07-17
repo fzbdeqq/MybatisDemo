@@ -1,30 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snail.sakila.mapper.ActorMapper">
-  <cache/>
-  <resultMap id="BaseResultMap" type="com.snail.sakila.model.Actor">
-    <id column="actor_id" jdbcType="SMALLINT" property="actorId" />
-    <result column="first_name" jdbcType="VARCHAR" property="firstName" />
-    <result column="last_name" jdbcType="VARCHAR" property="lastName" />
-    <result column="last_update" jdbcType="TIMESTAMP" property="lastUpdate" />
-  </resultMap>
+    <cache/>
 
-  <resultMap id="actorFilmResult" type="com.snail.sakila.model.Actor">
-    <id column="actor_id" jdbcType="SMALLINT" property="actorId" />
-    <result column="first_name" jdbcType="VARCHAR" property="firstName" />
-    <result column="last_name" jdbcType="VARCHAR" property="lastName" />
-    <result column="last_update" jdbcType="TIMESTAMP" property="lastUpdate" />
-    <collection property="films" ofType="com.snail.sakila.vo.FilmVo">
-      <result column="title" jdbcType="VARCHAR" property="title" />
-      <result column="release_year" jdbcType="DATE" property="releaseYear" />
-    </collection>
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.snail.sakila.model.Actor">
+        <id column="actor_id" jdbcType="SMALLINT" property="actorId"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="last_update" jdbcType="TIMESTAMP" property="lastUpdate"/>
+    </resultMap>
 
-  <sql id="Base_Column_List">
+    <resultMap id="actorFilmResult" type="com.snail.sakila.model.Actor">
+        <id column="actor_id" jdbcType="SMALLINT" property="actorId"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="last_update" jdbcType="TIMESTAMP" property="lastUpdate"/>
+        <collection property="films" ofType="com.snail.sakila.vo.FilmVo">
+            <result column="title" jdbcType="VARCHAR" property="title"/>
+            <result column="release_year" jdbcType="DATE" property="releaseYear"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="actorExtendResult" type="com.snail.sakila.model.Actor">
+        <id column="actor_id" jdbcType="SMALLINT" property="actorId"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="last_update" jdbcType="TIMESTAMP" property="lastUpdate"/>
+        <association property="actorExtend" javaType="com.snail.sakila.model.ActorExtend">
+            <result column="sex" jdbcType="SMALLINT" property="sex"/>
+            <result column="age" jdbcType="SMALLINT" property="age"/>
+        </association>
+    </resultMap>
+
+    <sql id="Base_Column_List">
     actor_id, first_name, last_name, last_update
   </sql>
 
-  <select id="selectActorFilmByActorId" parameterType="java.lang.Short" resultMap="actorFilmResult">
+    <select id="selectActorFilmByActorId" parameterType="java.lang.Short" resultMap="actorFilmResult">
     SELECT actor.*,film.title,film.release_year FROM actor
     INNER JOIN film_actor ON actor.actor_id=film_actor.actor_id
     INNER JOIN film ON film.film_id=film_actor.film_id
@@ -32,74 +44,113 @@
     Limit 3;
   </select>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from actor
-    where actor_id = #{actorId,jdbcType=SMALLINT}
+    <select id="selectActorExtendByActorId" parameterType="java.lang.Short" resultMap="actorExtendResult">
+    SELECT actor.*,actor_extend.age,actor_extend.sex FROM actor
+    INNER JOIN actor_extend on actor.actor_id=actor_extend.actor_id
+    WHERE actor.actor_id = #{actorId,jdbcType=SMALLINT}
   </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+    <select id="selectActorByActor" parameterType="com.snail.sakila.model.Actor" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from actor
+        <where>
+            <if test="actorId != null">
+                AND actor_id = #{actorId,jdbcType=SMALLINT}
+            </if>
+            <if test="firstName != null">
+                AND first_name like concat('%',#{firstName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="lastName != null">
+                AND last_name like concat('%',#{lastName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="lastUpdate != null">
+                AND last_update = #{lastUpdate,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <select id="selectActorByActorIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from actor
+        <where>
+            <if test="list != null and list.size>0 ">
+                actor_id in
+                <foreach collection="list" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from actor
+        where actor_id = #{actorId,jdbcType=SMALLINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
     delete from actor
     where actor_id = #{actorId,jdbcType=SMALLINT}
   </delete>
 
-  <insert id="insert" parameterType="com.snail.sakila.model.Actor">
+    <insert id="insert" parameterType="com.snail.sakila.model.Actor">
     insert into actor (actor_id, first_name, last_name, 
       last_update)
     values (#{actorId,jdbcType=SMALLINT}, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, 
       #{lastUpdate,jdbcType=TIMESTAMP})
   </insert>
 
-  <insert id="insertSelective" parameterType="com.snail.sakila.model.Actor">
-    insert into actor
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="actorId != null">
-        actor_id,
-      </if>
-      <if test="firstName != null">
-        first_name,
-      </if>
-      <if test="lastName != null">
-        last_name,
-      </if>
-      <if test="lastUpdate != null">
-        last_update,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="actorId != null">
-        #{actorId,jdbcType=SMALLINT},
-      </if>
-      <if test="firstName != null">
-        #{firstName,jdbcType=VARCHAR},
-      </if>
-      <if test="lastName != null">
-        #{lastName,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdate != null">
-        #{lastUpdate,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
+    <insert id="insertSelective" parameterType="com.snail.sakila.model.Actor">
+        insert into actor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="actorId != null">
+                actor_id,
+            </if>
+            <if test="firstName != null">
+                first_name,
+            </if>
+            <if test="lastName != null">
+                last_name,
+            </if>
+            <if test="lastUpdate != null">
+                last_update,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="actorId != null">
+                #{actorId,jdbcType=SMALLINT},
+            </if>
+            <if test="firstName != null">
+                #{firstName,jdbcType=VARCHAR},
+            </if>
+            <if test="lastName != null">
+                #{lastName,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdate != null">
+                #{lastUpdate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.snail.sakila.model.Actor">
-    update actor
-    <set>
-      <if test="firstName != null">
-        first_name = #{firstName,jdbcType=VARCHAR},
-      </if>
-      <if test="lastName != null">
-        last_name = #{lastName,jdbcType=VARCHAR},
-      </if>
-      <if test="lastUpdate != null">
-        last_update = #{lastUpdate,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where actor_id = #{actorId,jdbcType=SMALLINT}
-  </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.snail.sakila.model.Actor">
+        update actor
+        <set>
+            <if test="firstName != null">
+                first_name = #{firstName,jdbcType=VARCHAR},
+            </if>
+            <if test="lastName != null">
+                last_name = #{lastName,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdate != null">
+                last_update = #{lastUpdate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where actor_id = #{actorId,jdbcType=SMALLINT}
+    </update>
 
-  <update id="updateByPrimaryKey" parameterType="com.snail.sakila.model.Actor">
+    <update id="updateByPrimaryKey" parameterType="com.snail.sakila.model.Actor">
     update actor
     set first_name = #{firstName,jdbcType=VARCHAR},
       last_name = #{lastName,jdbcType=VARCHAR},

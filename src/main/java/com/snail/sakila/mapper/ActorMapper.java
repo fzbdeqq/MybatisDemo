@@ -3,6 +3,8 @@ package com.snail.sakila.mapper;
 import com.snail.sakila.model.Actor;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 public interface ActorMapper {
 
     int deleteByPrimaryKey(Short actorId);
@@ -21,4 +23,10 @@ public interface ActorMapper {
     Actor selectByActorId(short actorId);
 
     Actor selectActorFilmByActorId(short actorId);
+
+    Actor selectActorExtendByActorId(short actorId);
+
+    Actor selectActorByActor(Actor actor);
+
+    List<Actor> selectActorByActorIds(List<Short> actorIds);
 }

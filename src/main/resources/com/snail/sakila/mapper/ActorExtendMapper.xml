@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.snail.sakila.mapper.ActorExtendMapper">
+  <resultMap id="BaseResultMap" type="com.snail.sakila.model.ActorExtend">
+    <id column="actor_id" jdbcType="SMALLINT" property="actorId" />
+    <result column="sex" jdbcType="SMALLINT" property="sex" />
+    <result column="age" jdbcType="SMALLINT" property="age" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    actor_id, sex, age
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from actor_extend
+    where actor_id = #{actorId,jdbcType=SMALLINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Short">
+    delete from actor_extend
+    where actor_id = #{actorId,jdbcType=SMALLINT}
+  </delete>
+  <insert id="insert" parameterType="com.snail.sakila.model.ActorExtend">
+    insert into actor_extend (actor_id, sex, age
+      )
+    values (#{actorId,jdbcType=SMALLINT}, #{sex,jdbcType=SMALLINT}, #{age,jdbcType=SMALLINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.snail.sakila.model.ActorExtend">
+    insert into actor_extend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="actorId != null">
+        actor_id,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="actorId != null">
+        #{actorId,jdbcType=SMALLINT},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=SMALLINT},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.snail.sakila.model.ActorExtend">
+    update actor_extend
+    <set>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=SMALLINT},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where actor_id = #{actorId,jdbcType=SMALLINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.snail.sakila.model.ActorExtend">
+    update actor_extend
+    set sex = #{sex,jdbcType=SMALLINT},
+      age = #{age,jdbcType=SMALLINT}
+    where actor_id = #{actorId,jdbcType=SMALLINT}
+  </update>
+</mapper>
