@@ -69,7 +69,7 @@
             </if>
         </where>
     </select>
-    <select id="selectActorByActorIds" parameterType="java.util.List" resultMap="BaseResultMap" databaseId="mysql">
+    <select id="selectActorByActorIds" parameterType="java.util.List" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from actor
@@ -81,7 +81,6 @@
                 </foreach>
             </if>
         </where>
-        <if test="_databaseId=='mysql'">limit 0,10</if>
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Short" resultMap="BaseResultMap">
