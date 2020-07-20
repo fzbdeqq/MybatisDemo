@@ -61,6 +61,15 @@
             <version>1.2.3</version>
         </dependency>
 
+<!--
+mvn install:install-file -Dfile=D:\local_jar\sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc42 -Dversion=6.0 -Dpackaging=jar
+C:\Users\asus\.m2\repository\com\microsoft\sqlserver\sqljdbc42\maven-metadata-local.xml
+-->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>sqljdbc42</artifactId>
+            <version>6.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -141,4 +150,15 @@
             </plugins>
         </pluginManagement>
     </build>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

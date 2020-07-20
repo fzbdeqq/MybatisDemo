@@ -22,7 +22,7 @@
     category_id, name, last_update
   </sql>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Byte" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Byte" resultMap="BaseResultMap" databaseId="mysql">
     select 
     <include refid="Base_Column_List" />
     from category

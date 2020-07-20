@@ -25,12 +25,18 @@
             </dataSource>
         </environment>
     </environments>
-
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="SQL Server" value="sqlserver111"/>
+        <property name="DB2" value="db2"/>
+        <property name="Oracle" value="oracle" />
+        <property name="MySQL" value="mysql" />
+    </databaseIdProvider>
     <mappers>
         <mapper resource="com/snail/sakila/mapper/ActorMapper.xml"/>
         <mapper resource="com/snail/sakila/mapper/FilmActorMapper.xml"/>
         <mapper resource="com/snail/sakila/mapper/FilmMapper.xml"/>
         <mapper resource="com/snail/sakila/mapper/CategoryMapper.xml"/>
+        <mapper resource="com/snail/sakila/mapper/DatabaseIdMapper.xml"/>
     </mappers>
 
 </configuration>
